@@ -1,0 +1,8 @@
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+<IfModule mod_alias.c>
+RedirectMatch 301 ^/a-propos\.html$ /bord-virtuel.html
+</IfModule>
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
