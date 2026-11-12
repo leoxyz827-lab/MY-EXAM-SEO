@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
+  <meta name="robots" content="noindex, nofollow">
+  <title>MY EXAM | Chargement</title>
+  <style>
+    :root{color-scheme:light;--navy:#071a32;--blue:#126ba0;--rose:#c20e5b;--muted:#758398;--track:#e7edf4}
+    *,*::before,*::after{box-sizing:border-box}
+    body{min-width:320px;min-height:100vh;margin:0;display:grid;place-items:center;padding:32px;background:radial-gradient(ellipse at 50% 34%,#fff 0%,#f7f9fc 58%,#edf2f8 100%);color:var(--navy);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    .loader{width:min(100%,440px);text-align:center}
+    .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:43px}
+    .brand-mark{display:grid;width:44px;height:44px;place-items:center;border-radius:14px;background:linear-gradient(140deg,var(--navy),#164c77);box-shadow:0 8px 18px rgba(7,26,50,.15);color:#fff;font-size:13px;font-weight:950;letter-spacing:-.7px}
+    .brand-name{font-size:23px;font-weight:950;letter-spacing:-1.1px}
+    .brand-name span{color:var(--blue)}
+    .brand-name em{color:var(--rose);font-style:normal}
+    .loader-ring{position:relative;width:210px;height:210px;margin:auto}
+    .loader-ring svg{width:100%;height:100%;transform:rotate(-90deg);filter:drop-shadow(0 8px 14px rgba(18,107,160,.12))}
+    .ring-track,.ring-progress{fill:none;stroke-width:8}
+    .ring-track{stroke:var(--track)}
+    .ring-progress{stroke:url(#progress-gradient);stroke-linecap:round;stroke-dasharray:565.49;stroke-dashoffset:565.49}
+    .ring-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .percent{font-size:52px;font-weight:900;letter-spacing:-3px;font-variant-numeric:tabular-nums;line-height:1}
+    .percent-sign{font-size:24px;color:var(--blue);vertical-align:top;margin-left:2px}
+    .loading-label{margin-top:11px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+    .slogan{margin:31px 0 0;font-size:clamp(17px,4vw,20px);font-weight:850;letter-spacing:-.45px}
+    .slogan span{color:var(--rose)}
+    .loading-note{margin:9px 0 0;color:var(--muted);font-size:12px}
+    .skip{display:inline-block;margin-top:31px;padding:10px 15px;border:1px solid #dfe6ef;border-radius:10px;color:#42536a;font-size:12px;font-weight:750;text-decoration:none;transition:background .2s,border-color .2s}
+    .skip:hover{background:#fff;border-color:#cdd8e5}
+    .skip:focus-visible{outline:3px solid #36a8e7;outline-offset:3px}
+    @media(max-width:480px){body{padding:24px}.brand{margin-bottom:36px}.loader-ring{width:190px;height:190px}.percent{font-size:47px}}
+  </style>
+</head>
+<body>
+  <main class="loader" aria-labelledby="loader-title">
+    
+    </div>
+    <div class="loader-ring" role="progressbar" aria-label="Chargement du site" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#126ba0"></stop>
+            <stop offset="100%" stop-color="#c20e5b"></stop>
+          </linearGradient>
+        </defs>
+        <circle class="ring-track" cx="100" cy="100" r="90"></circle>
+        <circle class="ring-progress" cx="100" cy="100" r="90"></circle>
+      </svg>
+      <div class="ring-content">
+        <div class="percent"><span id="percent">0</span><span class="percent-sign">%</span></div>
+        <span class="loading-label">Chargement</span>
+      </div>
+    </div>
+    <h1 class="slogan" id="loader-title">Le professeur au <span>tableau.</span></h1>
+    <p class="loading-note">Préparez-vous à découvrir MY EXAM</p>
+    
+  </main>
+  <script>
+    (() => {
+      const duration = 10000;
+      const startedAt = performance.now();
+      const percent = document.getElementById('percent');
+      const ring = document.querySelector('.ring-progress');
+      const progress = document.querySelector('.loader-ring');
+      const circumference = 2 * Math.PI * 90;
+      ring.style.strokeDasharray = String(circumference);
+
+      function update(now) {
+        const ratio = Math.min((now - startedAt) / duration, 1);
+        const value = Math.floor(ratio * 100);
+        percent.textContent = String(value);
+        progress.setAttribute('aria-valuenow', String(value));
+        ring.style.strokeDashoffset = String(circumference * (1 - ratio));
+
+        if (ratio < 1) {
+          requestAnimationFrame(update);
+        } else {
+          window.location.replace('index.html');
+        }
+      }
+
+      requestAnimationFrame(update);
+    })();
+  </script>
+</body>
+</html>
