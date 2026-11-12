@@ -1,7 +1,7 @@
 Lien des 
 Lien google Maps: <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127356.63044758464!2d9.768513107250971!3d4.041905589783833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x106113072cfbebf3%3A0x3ceb12c1f45a7764!2sMY%20EXAM!5e0!3m2!1sfr!2scm!4v1794220001543!5m2!1sfr!2scm" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 Liens des images: 
-    Image 1 https://imgg.fr/r/gzIbVPZZ.png (une solution future)
+    Image 1 https://imgg.fr/r/gzIbVPZZ (une solution future)
     laptop: https://imgg.fr/f/3Oe5jfnh
     Imprimante: 
     Clavier:
