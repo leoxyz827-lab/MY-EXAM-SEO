@@ -303,6 +303,18 @@ const basket=new Map();
 let activeCategory='all';
 let returnFocus=null;
 const normalize=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr');
+const normalizeSearch=value=>normalize(value).replace(/[^a-z0-9]/g,'');
+function matchingCharacterCount(query,text){
+ let previous=new Array(text.length+1).fill(0);
+ for(const character of query){
+  const current=new Array(text.length+1).fill(0);
+  for(let index=1;index<=text.length;index++){
+   current[index]=character===text[index-1]?previous[index-1]+1:Math.max(previous[index],current[index-1]);
+  }
+  previous=current;
+ }
+ return previous[text.length];
+}
 function productPhoto(product){
  const [, ,category]=product;
  const photo=productPhotosByCategory[category];
@@ -310,8 +322,27 @@ function productPhoto(product){
  return document.querySelector('[data-product-photo="'+category+'"]').src;
 }
 function renderProducts(){
- const query=normalize(search.value.trim());
- let visible=products.filter(product=>(activeCategory==='all'||product[2]===activeCategory)&&(!query||normalize(product.slice(1,4).join(' ')).includes(query)));
+ const query=normalizeSearch(search.value.trim());
+ let visible=products.filter(product=>activeCategory==='all'||product[2]===activeCategory);
+ if(query){
+  const matches=visible.map(product=>{
+   const searchFields=[product[0],product[1],categoryNames[product[2]],product[3],product[6]].map(normalizeSearch);
+   const fuzzyFields=searchFields.filter((field,index)=>index!==3);
+   return {
+    product,
+    score:Math.max(...fuzzyFields.map(field=>matchingCharacterCount(query,field))),
+    exact:searchFields.some(field=>field.includes(query))
+   };
+  });
+  const exactMatches=matches.filter(result=>result.exact);
+  if(exactMatches.length){
+   visible=exactMatches.map(result=>result.product);
+  }else{
+   const fuzzyMatches=matches.filter(result=>result.score>0).sort((a,b)=>b.score-a.score);
+   const bestScore=fuzzyMatches[0]?.score;
+   visible=bestScore>=Math.ceil(query.length*.8)?fuzzyMatches.filter(result=>result.score===bestScore).map(result=>result.product):[];
+  }
+ }
  if(sort.value==='price-asc')visible.sort((a,b)=>a[4]-b[4]);
  if(sort.value==='price-desc')visible.sort((a,b)=>b[4]-a[4]);
  if(sort.value==='name')visible.sort((a,b)=>a[1].localeCompare(b[1],'fr'));
