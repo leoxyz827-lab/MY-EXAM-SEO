@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://myexamofficiel.com/sitemap.xml
